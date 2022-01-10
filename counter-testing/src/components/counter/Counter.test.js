@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import Counter from './Counter'
-import userEvent from '@testing-library/user-event'
 
 test('header renders with correct test', () => {
   render(<Counter />)
@@ -49,7 +48,7 @@ test('Click on + button adds 1 to counter', () => {
   render(<Counter />)
   const btnElement = screen.getByTestId('add-button')
   const counterEle = screen.getByTestId('counter')
-  userEvent.click(btnElement)
+  fireEvent.click(btnElement)
   expect(counterEle.textContent).toBe('1')
 })
 
@@ -57,6 +56,36 @@ test('Click on - button minus 1 from counter', () => {
   render(<Counter />)
   const btnElement = screen.getByTestId('subtract-button')
   const counterEle = screen.getByTestId('counter')
-  userEvent.click(btnElement)
+  fireEvent.click(btnElement)
   expect(counterEle.textContent).toBe('-1')
+})
+
+
+test('Changing input value then clicking on + button works correctly', () => {
+  render(<Counter />)
+  const btnElement = screen.getByTestId('add-button')
+  const counterEle = screen.getByTestId('counter')
+  const inputEl = screen.getByTestId('input')
+  fireEvent.change(inputEl, {
+    target: {
+      value: '5'
+    }
+  })
+  fireEvent.click(btnElement)
+  expect(counterEle.textContent).toBe('5')
+})
+
+
+test('Changing input value then clicking on - button works correctly', () => {
+  render(<Counter />)
+  const btnElement = screen.getByTestId('add-button')
+  const counterEle = screen.getByTestId('counter')
+  const inputEl = screen.getByTestId('input')
+  fireEvent.change(inputEl, {
+    target: {
+      value: '5'
+    }
+  })
+  fireEvent.click(btnElement)
+  expect(counterEle.textContent).toBe('5')
 })

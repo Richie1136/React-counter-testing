@@ -6,15 +6,15 @@ const Counter = () => {
   const [value, setValue] = useState(1)
 
   const onValueChange = (e) => {
-    setValue(e.target.value)
+    setValue(parseInt(e.target.value))
   }
 
   const incrementCount = () => {
-    setCount((count) => count + 1)
+    setCount((count) => count + value)
   }
 
   const decrementCount = () => {
-    setCount((count) => count - 1)
+    setCount((count) => count - value)
   }
 
   return (
