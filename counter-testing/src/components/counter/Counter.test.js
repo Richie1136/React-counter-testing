@@ -78,7 +78,7 @@ test('Changing input value then clicking on + button works correctly', () => {
 
 test('Changing input value then clicking on - button works correctly', () => {
   render(<Counter />)
-  const btnElement = screen.getByTestId('add-button')
+  const btnElement = screen.getByTestId('subtract-button')
   const counterEle = screen.getByTestId('counter')
   const inputEl = screen.getByTestId('input')
   fireEvent.change(inputEl, {
@@ -87,5 +87,79 @@ test('Changing input value then clicking on - button works correctly', () => {
     }
   })
   fireEvent.click(btnElement)
-  expect(counterEle.textContent).toBe('5')
+  expect(counterEle.textContent).toBe('-5')
+})
+
+
+test('Adding and then subtracting leads to the correct counter number', () => {
+  render(<Counter />)
+  const btnElement = screen.getByTestId('subtract-button')
+  const addBtnElement = screen.getByTestId('add-button')
+  const counterEle = screen.getByTestId('counter')
+  const inputEl = screen.getByTestId('input')
+
+  fireEvent.change(inputEl, {
+    target: {
+      value: '10'
+    }
+  })
+  fireEvent.click(addBtnElement)
+  fireEvent.click(addBtnElement)
+  fireEvent.click(addBtnElement)
+  fireEvent.click(addBtnElement)
+  fireEvent.click(btnElement)
+  fireEvent.click(btnElement)
+  expect(counterEle.textContent).toBe('20')
+
+  fireEvent.change(inputEl, {
+    target: {
+      value: '5'
+    }
+  })
+
+  fireEvent.click(addBtnElement)
+  fireEvent.click(addBtnElement)
+  fireEvent.click(addBtnElement)
+  fireEvent.click(addBtnElement)
+  fireEvent.click(btnElement)
+  fireEvent.click(btnElement)
+  expect(counterEle.textContent).toBe('30')
+
+})
+
+test('counter contains correct className', () => {
+  render(<Counter />)
+  const counterEle = screen.getByTestId('counter')
+  const btnElement = screen.getByTestId('subtract-button')
+  const addBtnElement = screen.getByTestId('add-button')
+  const inputEl = screen.getByTestId('input')
+
+  expect(counterEle.className).toBe("")
+
+  fireEvent.change(inputEl, {
+    target: {
+      value: '50'
+    }
+  })
+  fireEvent.click(addBtnElement)
+  expect(counterEle.className).toBe("")
+  fireEvent.click(addBtnElement)
+  expect(counterEle.className).toBe("green")
+
+  fireEvent.click(addBtnElement)
+  expect(counterEle.className).toBe("green")
+
+  fireEvent.click(btnElement)
+  fireEvent.click(btnElement)
+
+  expect(counterEle.className).toBe("")
+
+  fireEvent.click(btnElement)
+  fireEvent.click(btnElement)
+  fireEvent.click(btnElement)
+  fireEvent.click(btnElement)
+
+  expect(counterEle.className).toBe("red")
+
+
 })
